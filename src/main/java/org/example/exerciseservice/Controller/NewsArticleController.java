@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/article")
@@ -71,19 +73,21 @@ public class NewsArticleController {
     @GetMapping("/search-published")
     public ResponseEntity<?> searchByIsPublished() {
 
-        if (newsArticleService.searchIsPublished().isEmpty()) {
+        ArrayList<NewsArticle> publishedSearch = newsArticleService.searchIsPublished();
+        if (publishedSearch.isEmpty()) {
             return ResponseEntity.status(400).body(new ApiResponse("No published articles found"));
         }
-        return ResponseEntity.status(200).body(newsArticleService.searchIsPublished());
+        return ResponseEntity.status(200).body(publishedSearch);
     }
 
 
     @GetMapping("/search-category/{category}")
     public ResponseEntity<?> searchByCategory(@PathVariable String category) {
 
-        if (newsArticleService.searchByCategory(category).isEmpty()) {
+        ArrayList<NewsArticle> categorySearch = newsArticleService.searchByCategory(category);
+        if (categorySearch.isEmpty()) {
             return ResponseEntity.status(400).body(new ApiResponse("No articles found in (" + category + ") category"));
         }
-        return ResponseEntity.status(200).body(newsArticleService.searchByCategory(category));
+        return ResponseEntity.status(200).body(categorySearch);
     }
 }
