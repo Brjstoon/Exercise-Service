@@ -22,6 +22,7 @@ public class NewsArticleService {
     public boolean updateNewsArticle(NewsArticle newsArticle, String id){
         for (int i=0;i< newsArticles.size();i++){
             if (newsArticles.get(i).getId().equalsIgnoreCase(id)){
+                newsArticle.setId(id);
                 newsArticles.set(i, newsArticle);
                 return true;
             }
